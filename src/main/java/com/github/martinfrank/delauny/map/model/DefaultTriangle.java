@@ -3,7 +3,7 @@ package com.github.martinfrank.delauny.map.model;
 import com.github.martinfrank.delauny.map.Edge;
 import com.github.martinfrank.delauny.map.Node;
 import com.github.martinfrank.delauny.map.Triangle;
-import com.github.martinfrank.delauny.map.util.CounterClockwiseComparator;
+import com.github.martinfrank.delauny.map.util.CounterClockwiseNodeComparator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +23,8 @@ public class DefaultTriangle implements Triangle {
 
     public final double area;
 
+    private final Node u;
+
     public DefaultTriangle(Node a, Node b, Node c) {
         this.a = a;
         this.b = b;
@@ -33,12 +35,34 @@ public class DefaultTriangle implements Triangle {
         bc = new DefaultEdge(b, c);
 
         area = calculateArea();
+        u = calculateCircumscribedCenter();
+    }
+
+    private Node calculateCircumscribedCenter() {
+        //https://en.wikipedia.org/wiki/Circumscribed_circle
+        double d = 2 * (
+                a.getX() * (b.getY() - c.getY()) +
+                        b.getX() * (c.getY() - a.getY()) +
+                        c.getX() * (a.getY() - b.getY())
+        );
+        double ux =
+                (Math.pow(a.getX(), 2) + Math.pow(a.getY(), 2)) * (b.getY() - c.getY()) +
+                        (Math.pow(b.getX(), 2) + Math.pow(b.getY(), 2)) * (c.getY() - a.getY()) +
+                        (Math.pow(c.getX(), 2) + Math.pow(c.getY(), 2)) * (a.getY() - b.getY());
+        double uy =
+                (Math.pow(a.getX(), 2) + Math.pow(a.getY(), 2)) * (c.getX() - b.getX()) +
+                        (Math.pow(b.getX(), 2) + Math.pow(b.getY(), 2)) * (a.getX() - c.getX()) +
+                        (Math.pow(c.getX(), 2) + Math.pow(c.getY(), 2)) * (b.getX() - a.getX());
+        return new DefaultNode(ux / d, uy / d);
+
     }
 
     private double calculateArea() {
         double la = bc.getLength();
         double lb = ac.getLength();
         double lc = ab.getLength();
+
+        //https://en.wikipedia.org/wiki/Heron%27s_formula
         return 0.25 * Math.sqrt((la + lb + lc) * (-1 * la + lb + lc) * (la - lb + lc) * (la + lb - lc));
     }
 
@@ -73,12 +97,18 @@ public class DefaultTriangle implements Triangle {
     }
 
     @Override
+    public Node getU() {
+        return u;
+    }
+
+    @Override
     public double getArea() {
         return area;
     }
 
     @Override
     public boolean surrounds(Node node) {
+        //https://discuss.codechef.com/t/best-way-to-check-if-a-point-lies-inside-a-triangle-or-not/13528
         Triangle abn = new DefaultTriangle(a, b, node);
         Triangle acn = new DefaultTriangle(a, c, node);
         Triangle bcn = new DefaultTriangle(b, c, node);
@@ -111,7 +141,7 @@ public class DefaultTriangle implements Triangle {
     @Override
     public int hashCode() {
         List<Node> nodes = Arrays.asList(a, b, c);
-        nodes.sort(new CounterClockwiseComparator(a, b, c));
+        nodes.sort(new CounterClockwiseNodeComparator(a, b, c));
         return Objects.hash(nodes.get(0), nodes.get(1), nodes.get(2));
     }
 

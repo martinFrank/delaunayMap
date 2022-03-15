@@ -16,6 +16,8 @@ public interface Triangle {
 
     Edge getBC();
 
+    Node getU();
+
     double getArea();
 
     boolean surrounds(Node node);

@@ -5,12 +5,12 @@ import com.github.martinfrank.delauny.map.model.Triangles;
 import com.github.martinfrank.delauny.map.util.CircumferenceConditionChecker;
 import com.github.martinfrank.delauny.map.util.Flipper;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class DelaunayTriangulation {
 
     private final Triangles triangles;
-
 
     public DelaunayTriangulation() {
         this(new DefaultNode(-10, -10), new DefaultNode(10, 10));
@@ -20,14 +20,19 @@ public class DelaunayTriangulation {
         triangles = new Triangles(min, max);
     }
 
-
     public void insertNode(Node node) {
+        if (triangles.contains(node)) {
+            return;
+        }
         triangles.insert(node);
         boolean done = false;
         while (!done) {
             done = true;
             for (Triangle triangle : triangles.getTriangles()) {
                 done = done & checkTriangle(triangle);
+            }
+            if (done) {
+                triangles.updateVoronoi();
             }
         }
     }
@@ -60,11 +65,24 @@ public class DelaunayTriangulation {
         return isOk;
     }
 
-    public List<Edge> getEdges() {
+    public List<Edge> getTriangleEdges() {
         return triangles.getEdges();
     }
 
     public boolean isInBounds(double x, double y) {
         return triangles.isInBounds(x, y);
+    }
+
+    public List<Edge> getVoronoiEdges() {
+        return triangles.getVoronoiEdges();
+    }
+
+    public List<Edge> getInnerTriangleEdges() {
+        return triangles.getInnerEdges();
+    }
+
+
+    public List<Node> getBounds() {
+        return Arrays.asList(triangles.getMinBounds(), triangles.getMaxBounds());
     }
 }

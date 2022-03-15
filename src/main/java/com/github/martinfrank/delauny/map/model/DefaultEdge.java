@@ -2,7 +2,7 @@ package com.github.martinfrank.delauny.map.model;
 
 import com.github.martinfrank.delauny.map.Edge;
 import com.github.martinfrank.delauny.map.Node;
-import com.github.martinfrank.delauny.map.util.CounterClockwiseComparator;
+import com.github.martinfrank.delauny.map.util.CounterClockwiseNodeComparator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -53,7 +53,7 @@ public class DefaultEdge implements Edge {
     @Override
     public int hashCode() {
         List<Node> nodes = Arrays.asList(a, b);
-        nodes.sort(new CounterClockwiseComparator(a, b, new DefaultNode(0, 0)));
+        nodes.sort(new CounterClockwiseNodeComparator(a, b, new DefaultNode(0, 0)));
         return Objects.hash(nodes.get(0), nodes.get(1));
     }
 }

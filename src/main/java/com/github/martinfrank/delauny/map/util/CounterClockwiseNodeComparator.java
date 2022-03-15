@@ -5,17 +5,21 @@ import com.github.martinfrank.delauny.map.Node;
 import com.github.martinfrank.delauny.map.model.DefaultNode;
 
 import java.util.Comparator;
-
-public class CounterClockwiseComparator implements Comparator<Node> {
+//https://en.wikipedia.org/wiki/Polar_coordinate_system#Converting_between_polar_and_Cartesian_coordinates
+public class CounterClockwiseNodeComparator implements Comparator<Node> {
 
     private final Node center;
 
-    public CounterClockwiseComparator(Node a, Node b, Node c) {
+    public CounterClockwiseNodeComparator(Node a, Node b, Node c) {
         this.center = new DefaultNode((a.getX() + b.getX() + c.getX()) / 3d, (a.getY() + b.getY() + c.getY()) / 3d);
     }
 
-    public CounterClockwiseComparator() {
-        this.center = new DefaultNode(0, 0);
+    public CounterClockwiseNodeComparator(Node center) {
+        this.center = center;
+    }
+
+    public CounterClockwiseNodeComparator() {
+        this(new DefaultNode(0, 0));
     }
 
     @Override

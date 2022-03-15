@@ -9,7 +9,7 @@ public class Matrix {
 
     public static double getDeterminante(Node i, Node j, Node k, Node x) {
         List<Node> nodes = Arrays.asList(i, j, k);
-        nodes.sort(new CounterClockwiseComparator(i, j, k));
+        nodes.sort(new CounterClockwiseNodeComparator(i, j, k));
         Node a = nodes.get(0);
         Node b = nodes.get(1);
         Node c = nodes.get(2);
@@ -29,6 +29,10 @@ public class Matrix {
         double m33 = (Math.pow(c.getX(), 2) - Math.pow(x.getX(), 2)) +
                 (Math.pow(c.getY(), 2) - Math.pow(x.getY(), 2));
 
+
+        //https://de.wikipedia.org/wiki/Delaunay-Triangulierung#Algorithmen
+        //https://de.wikipedia.org/wiki/Determinante
+        //https://de.wikipedia.org/wiki/Regel_von_Sarrus
         return (m11 * m22 * m33) + (m12 * m23 * m31) + (m13 * m21 * m32) -
                 (m13 * m22 * m31) - (m11 * m23 * m32) - (m12 * m21 * m33);
     }

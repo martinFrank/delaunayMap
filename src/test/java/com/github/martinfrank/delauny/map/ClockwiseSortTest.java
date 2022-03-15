@@ -2,7 +2,7 @@ package com.github.martinfrank.delauny.map;
 
 
 import com.github.martinfrank.delauny.map.model.DefaultNode;
-import com.github.martinfrank.delauny.map.util.CounterClockwiseComparator;
+import com.github.martinfrank.delauny.map.util.CounterClockwiseNodeComparator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public class ClockwiseSortTest {
         List<Node> manualSorted = Arrays.asList(a, b, c, d, e, f, g, h);
 
         List<Node> testee = Arrays.asList(b, c, a, h, d, e, f, g);
-        testee.sort(new CounterClockwiseComparator());
+        testee.sort(new CounterClockwiseNodeComparator());
 
         for (int i = 0; i < 8; i++) {
             Assert.assertEquals(testee.get(i), manualSorted.get(i));
