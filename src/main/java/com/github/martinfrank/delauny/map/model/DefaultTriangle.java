@@ -97,7 +97,7 @@ public class DefaultTriangle implements Triangle {
     }
 
     @Override
-    public Node getU() {
+    public Node getCenter() {
         return u;
     }
 

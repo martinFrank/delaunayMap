@@ -93,7 +93,7 @@ public class Triangles {
             }
             if (isSurrounded) {
                 Set<Node> polygonNodes = new HashSet<>();
-                edges.forEach(e -> getTriangles(e).forEach(t -> polygonNodes.add(t.getU())));
+                edges.forEach(e -> getTriangles(e).forEach(t -> polygonNodes.add(t.getCenter())));
                 polygons.add(new DefaultVoronoiPolygon(polygonNodes, node));
             }
         }

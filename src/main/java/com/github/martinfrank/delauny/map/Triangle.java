@@ -16,7 +16,7 @@ public interface Triangle {
 
     Edge getBC();
 
-    Node getU();
+    Node getCenter();
 
     double getArea();
 
