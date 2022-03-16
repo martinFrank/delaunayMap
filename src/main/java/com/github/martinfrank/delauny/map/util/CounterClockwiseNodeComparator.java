@@ -11,7 +11,7 @@ public class CounterClockwiseNodeComparator implements Comparator<Node> {
     private final Node center;
 
     public CounterClockwiseNodeComparator(Node a, Node b, Node c) {
-        this.center = new DefaultNode((a.getX() + b.getX() + c.getX()) / 3d, (a.getY() + b.getY() + c.getY()) / 3d);
+        this(new DefaultNode((a.getX() + b.getX() + c.getX()) / 3d, (a.getY() + b.getY() + c.getY()) / 3d));
     }
 
     public CounterClockwiseNodeComparator(Node center) {

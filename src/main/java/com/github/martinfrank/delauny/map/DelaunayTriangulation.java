@@ -12,6 +12,7 @@ public class DelaunayTriangulation {
 
     private final Triangles triangles;
 
+
     public DelaunayTriangulation() {
         this(new DefaultNode(-10, -10), new DefaultNode(10, 10));
     }
@@ -29,7 +30,7 @@ public class DelaunayTriangulation {
         while (!done) {
             done = true;
             for (Triangle triangle : triangles.getTriangles()) {
-                done = done & checkTriangle(triangle);
+                done = done & checkEdges(triangle);
             }
             if (done) {
                 triangles.updateVoronoi();
@@ -37,7 +38,7 @@ public class DelaunayTriangulation {
         }
     }
 
-    private boolean checkTriangle(Triangle triangle) {
+    private boolean checkEdges(Triangle triangle) {
         boolean isOk = true;
         for (Edge e : triangle.getEdges()) {
             isOk = isOk && checkEdge(e);
@@ -84,5 +85,9 @@ public class DelaunayTriangulation {
 
     public List<Node> getBounds() {
         return Arrays.asList(triangles.getMinBounds(), triangles.getMaxBounds());
+    }
+
+    public List<Triangle> getTriangles() {
+        return triangles.getTriangles();
     }
 }

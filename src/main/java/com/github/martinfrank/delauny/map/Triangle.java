@@ -2,6 +2,8 @@ package com.github.martinfrank.delauny.map;
 
 import java.util.List;
 
+
+//FIXME from Polygon!
 public interface Triangle {
 
     Node getA();
@@ -25,4 +27,6 @@ public interface Triangle {
     List<Node> getNodes();
 
     List<Edge> getEdges();
+
+    boolean isInCircumference(Node x);
 }

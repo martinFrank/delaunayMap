@@ -23,7 +23,8 @@ public class DefaultTriangle implements Triangle {
 
     public final double area;
 
-    private final Node u;
+    private final Node center;
+    private final Edge aCenter;
 
     public DefaultTriangle(Node a, Node b, Node c) {
         this.a = a;
@@ -35,7 +36,8 @@ public class DefaultTriangle implements Triangle {
         bc = new DefaultEdge(b, c);
 
         area = calculateArea();
-        u = calculateCircumscribedCenter();
+        center = calculateCircumscribedCenter();
+        aCenter = new DefaultEdge(a, center);
     }
 
     private Node calculateCircumscribedCenter() {
@@ -98,7 +100,7 @@ public class DefaultTriangle implements Triangle {
 
     @Override
     public Node getCenter() {
-        return u;
+        return center;
     }
 
     @Override
@@ -123,6 +125,12 @@ public class DefaultTriangle implements Triangle {
     @Override
     public List<Edge> getEdges() {
         return Arrays.asList(ab, ac, bc);
+    }
+
+    @Override
+    public boolean isInCircumference(Node x) {
+        Edge xCenter = new DefaultEdge(x, center);
+        return xCenter.getLength() <= aCenter.getLength();
     }
 
     public boolean equals(Object o) {

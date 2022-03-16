@@ -13,9 +13,13 @@ public class CircumferenceConditionChecker {
     }
 
     public static boolean isViolated(Triangle t1, Triangle t2) {
-        List<Node> nodes = new ArrayList<>(t2.getNodes());
-        nodes.removeAll(t1.getNodes());
-        double det = Matrix.getDeterminante(t1.getA(), t1.getB(), t1.getC(), nodes.get(0));
-        return det > 0;
+        List<Node> xNodes = new ArrayList<>(t2.getNodes());
+        xNodes.removeAll(t1.getNodes());
+        Node x = xNodes.get(0);
+
+        List<Node> yNodes = new ArrayList<>(t1.getNodes());
+        yNodes.removeAll(t2.getNodes());
+        Node y = yNodes.get(0);
+        return t1.isInCircumference(x) || t2.isInCircumference(y);
     }
 }

@@ -31,19 +31,19 @@ public class CircumferenceCheckerTest {
     @Test
     public void testCircumferenceChecker2() {
         DefaultNode a = new DefaultNode(0, 0);
-        DefaultNode b = new DefaultNode(1, 0);
-        DefaultNode c = new DefaultNode(0, 1);
-        DefaultNode x = new DefaultNode(-1, -1);
+        DefaultNode b = new DefaultNode(4, 0);
+        DefaultNode c = new DefaultNode(2, 1);
 
-        //t3: a:Node(-1/-1)  b:Node(0/0)  c:Node(0/1)
-        //t4: a:Node(-1/-1)  b:Node(1/0)  c:Node(0/0)
+        DefaultNode x = new DefaultNode(2, -1);
 
-        //original Triangle t3 = new DefaultTriangle(a,c,x);
-        DefaultTriangle t3 = new DefaultTriangle(x, a, c);
-        //original Triangle t4 = new DefaultTriangle(a,b,x);
-        DefaultTriangle t4 = new DefaultTriangle(x, b, a);
+        DefaultTriangle t1 = new DefaultTriangle(a, b, c);
+        DefaultTriangle t2 = new DefaultTriangle(a, b, x);
 
-        Assert.assertTrue(CircumferenceConditionChecker.isViolated(t3, t4));
+        System.out.println("is inside?" + t1.isInCircumference(x));
+        Assert.assertTrue(CircumferenceConditionChecker.isViolated(t1, t2));
 
+        Triangle t1_flipped = new DefaultTriangle(a, x, c);
+        Triangle t2_flipped = new DefaultTriangle(x, c, b);
+        Assert.assertFalse(CircumferenceConditionChecker.isViolated(t1_flipped, t2_flipped));
     }
 }
