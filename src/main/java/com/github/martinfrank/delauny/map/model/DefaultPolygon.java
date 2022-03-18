@@ -2,20 +2,20 @@ package com.github.martinfrank.delauny.map.model;
 
 import com.github.martinfrank.delauny.map.Edge;
 import com.github.martinfrank.delauny.map.Node;
-import com.github.martinfrank.delauny.map.VoronoiPolygon;
+import com.github.martinfrank.delauny.map.Polygon;
 import com.github.martinfrank.delauny.map.util.CounterClockwiseNodeComparator;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class DefaultVoronoiPolygon implements VoronoiPolygon {
+public class DefaultPolygon implements Polygon {
 
     private final List<Node> nodes;
     private final List<Edge> edges = new ArrayList<>();
     private final Node center;
 
-    public DefaultVoronoiPolygon(Collection<Node> nodes, Node center) {
+    public DefaultPolygon(Collection<Node> nodes, Node center) {
         this.nodes = new ArrayList<>(nodes);
         this.nodes.sort(new CounterClockwiseNodeComparator(center));
         this.center = center;

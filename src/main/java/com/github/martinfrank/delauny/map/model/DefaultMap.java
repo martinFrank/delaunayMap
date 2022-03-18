@@ -2,22 +2,22 @@ package com.github.martinfrank.delauny.map.model;
 
 import com.github.martinfrank.delauny.map.Edge;
 import com.github.martinfrank.delauny.map.Node;
+import com.github.martinfrank.delauny.map.Polygon;
 import com.github.martinfrank.delauny.map.Triangle;
-import com.github.martinfrank.delauny.map.VoronoiPolygon;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Triangles {
+public class DefaultMap implements com.github.martinfrank.delauny.map.Map {
 
     private Set<Triangle> triangles = new HashSet<>();
-    private Set<VoronoiPolygon> polygons = new HashSet<>();
+    private Set<Polygon> polygons = new HashSet<>();
     private Set<Node> nodes = new HashSet<>();
     private final Node min;
     private final Node max;
     private final Triangle surroundingTriangle;
 
-    public Triangles(Node min, Node max) {
+    public DefaultMap(Node min, Node max) {
         this.min = min;
         this.max = max;
         surroundingTriangle = new DefaultTriangle(
@@ -28,7 +28,12 @@ public class Triangles {
 
 
     public List<Triangle> insert(Node node) {
-        nodes.add(node);
+        if (nodes.contains(node)) {
+            return Collections.emptyList();
+        } else {
+            nodes.add(node);
+        }
+
         Triangle surrounding = findSurroundingTriangle(node);
         triangles.remove(surrounding);
         Triangle t1 = new DefaultTriangle(surrounding.getA(), surrounding.getB(), node);
@@ -53,9 +58,7 @@ public class Triangles {
     public List<Edge> getEdges() {
         Set<Edge> edges = new HashSet<>();
         triangles.forEach(t -> edges.addAll(t.getEdges()));
-//        if(triangles.isEmpty()){
         edges.addAll(surroundingTriangle.getEdges());
-//        }
         return new ArrayList<>(edges);
     }
 
@@ -94,7 +97,7 @@ public class Triangles {
             if (isSurrounded) {
                 Set<Node> polygonNodes = new HashSet<>();
                 edges.forEach(e -> getTriangles(e).forEach(t -> polygonNodes.add(t.getCenter())));
-                polygons.add(new DefaultVoronoiPolygon(polygonNodes, node));
+                polygons.add(new DefaultPolygon(polygonNodes, node));
             }
         }
     }

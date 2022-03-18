@@ -1,14 +1,14 @@
 package com.github.martinfrank.delauny.map;
 
 import com.github.martinfrank.delauny.map.model.DefaultNode;
-import com.github.martinfrank.delauny.map.model.DefaultVoronoiPolygon;
+import com.github.martinfrank.delauny.map.model.DefaultPolygon;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class VoronoiPolygonTest {
+public class PolygonTest {
 
     @Test
     public void surroundTest() {
@@ -20,7 +20,7 @@ public class VoronoiPolygonTest {
         Node f = new DefaultNode(0, 1);
         Node center = new DefaultNode(1, 0.5);
         List<Node> nodes = Arrays.asList(a, b, c, d, e, f);
-        VoronoiPolygon polygon = new DefaultVoronoiPolygon(nodes, center);
+        Polygon polygon = new DefaultPolygon(nodes, center);
 
         Node inside = new DefaultNode(0.5, 0.5);
         Node outside = new DefaultNode(-1, 1);

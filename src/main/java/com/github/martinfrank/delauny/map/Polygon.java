@@ -2,7 +2,7 @@ package com.github.martinfrank.delauny.map;
 
 import java.util.List;
 
-public interface VoronoiPolygon {
+public interface Polygon {
 
     List<Edge> getEdges();
 
